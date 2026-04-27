@@ -5,156 +5,120 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastrar Curso</title>
     <style>
+        /* Reset básico de margens e escolha de fonte moderna */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Fundo da página e centralização do conteúdo */
         body {
-            font-family: sans-serif;
-            max-width: 480px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-            color: #1a1a1a;
+            background-color: #f4f7f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        /* Estilo do cartão do formulário */
+        .container {
+            background-color: #ffffff;
+            padding: 30px 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
         }
 
         h1 {
-            font-size: 1.4rem;
-            font-weight: 600;
-            margin-bottom: 0.25rem;
+            text-align: center;
+            margin-bottom: 25px;
+            color: #2c3e50;
+            font-size: 24px;
         }
 
-        .subtitulo {
-            font-size: 0.875rem;
-            color: #666;
-            margin-bottom: 1.5rem;
-        }
-
+        /* Organização de cada campo (label + input) */
         .form-group {
-            margin-bottom: 1.25rem;
+            margin-bottom: 15px;
         }
 
         label {
             display: block;
-            font-size: 0.875rem;
-            font-weight: 500;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            color: #555;
         }
 
-        .obrigatorio {
-            color: #e24b4a;
-            margin-left: 2px;
-        }
-
+        /* Estilo das caixas de texto */
         input, textarea {
             width: 100%;
-            box-sizing: border-box;
-            padding: 8px 12px;
+            padding: 10px 12px;
             border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            font-family: sans-serif;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
+        /* Efeito quando o usuário clica no campo (foco) */
         input:focus, textarea:focus {
             outline: none;
-            border-color: #888;
+            border-color: #3498db;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
         }
 
         textarea {
-            resize: vertical;
-            min-height: 90px;
+            resize: vertical; /* Permite aumentar apenas a altura */
+            min-height: 80px;
         }
 
-        .hint {
-            font-size: 0.75rem;
-            color: #999;
-            margin-top: 4px;
-        }
-
-        hr {
+        /* Estilo do Botão */
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #3498db;
+            color: white;
             border: none;
-            border-top: 1px solid #eee;
-            margin: 1.5rem 0;
-        }
-
-        .form-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-        }
-
-        .btn-limpar {
-            background: transparent;
-            border: 1px solid #ccc;
-            color: #555;
-            padding: 8px 18px;
-            border-radius: 8px;
-            font-size: 0.875rem;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
             cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
         }
 
-        .btn-cadastrar {
-            background: #1a1a1a;
-            color: #fff;
-            border: none;
-            padding: 8px 22px;
-            border-radius: 8px;
-            font-size: 0.875rem;
-            font-weight: 500;
-            cursor: pointer;
-        }
-
-        .btn-cadastrar:hover { opacity: 0.85; }
-        .btn-limpar:hover { background: #f5f5f5; }
-
-        .sucesso {
-            display: none;
-            background: #eaf3de;
-            border: 1px solid #639922;
-            color: #3b6d11;
-            border-radius: 8px;
-            padding: 10px 14px;
-            font-size: 0.875rem;
-            margin-top: 1rem;
+        /* Efeito quando o mouse passa por cima do botão */
+        button:hover {
+            background-color: #2980b9;
         }
     </style>
 </head>
 <body>
-
-    <h1>Cadastrar curso</h1>
-    <p class="subtitulo">Preencha os dados para adicionar um novo curso.</p>
-
-    <form action="/cursos" method="post" id="cursoForm">
-        <div class="form-group">
-            <label for="nome">Nome do curso <span class="obrigatorio">*</span></label>
-            <input type="text" id="nome" name="nome" placeholder="Ex: Desenvolvimento Web" required>
-        </div>
-
-        <div class="form-group">
-            <label for="carga_horaria">Carga horária <span class="obrigatorio">*</span></label>
-            <input type="number" id="carga_horaria" name="carga_horaria" placeholder="Ex: 40" min="1" required>
-            <p class="hint">Informe a carga em horas.</p>
-        </div>
-
-        <div class="form-group">
-            <label for="descricao">Descrição</label>
-            <textarea id="descricao" name="descricao" placeholder="Descreva o conteúdo e objetivos do curso..."></textarea>
-        </div>
-
-        <hr>
-
-        <div class="form-actions">
-            <button type="button" class="btn-limpar" onclick="document.getElementById('cursoForm').reset()">Limpar</button>
-            <button type="submit" class="btn-cadastrar">Cadastrar curso</button>
-        </div>
-    </form>
-
-    <div class="sucesso" id="sucesso">Curso cadastrado com sucesso!</div>
-
-    <script>
-        document.getElementById('cursoForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const msg = document.getElementById('sucesso');
-            msg.style.display = 'block';
-            setTimeout(() => msg.style.display = 'none', 3000);
-        });
-    </script>
-
+    <div class="container">
+        <h1>Cadastrar Curso</h1>
+        <form action="/cursos" method="post">
+            
+            <div class="form-group">
+                <label for="nome">Nome do Curso:</label>
+                <input type="text" id="nome" name="nome" placeholder="Ex: Programação Web" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="carga_horaria">Carga Horária (horas):</label>
+                <input type="number" id="carga_horaria" name="carga_horaria" placeholder="Ex: 40" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="descricao">Descrição:</label>
+                <textarea id="descricao" name="descricao" placeholder="Breve descrição do curso..."></textarea>
+            </div>
+            
+            <button type="submit">Cadastrar</button>
+            
+        </form>
+    </div>
 </body>
 </html>

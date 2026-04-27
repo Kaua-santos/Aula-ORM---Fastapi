@@ -16,9 +16,57 @@ app = FastAPI(title="Gestão Escolar")
 # Aponta para a pasta aonde ficam os html
 templates = Jinja2Templates(directory="templates")
 
+# rota inicial para apresentação 
+@app.get("/")
+def home(request: Request):
+    return templates.TemplateResponse(
+        request,
+        "index.html",
+        {"request": request}
+    )
+
 # Para exibir um htm na rota - exibe o formulario 
 @app.get("/cursos/cadastro", response_class=HTMLResponse)
 def exibir_cadastro(request: Request):
     return templates.TemplateResponse(request, "cadastro_curso.html", {"request": request})
 
+# cadastrar curso 
+@app.post("/cursos")
+def criar_curso(
+    nome: str = Form(...),
+    carga_horaria: int = Form(...),
+    descricao: str = Form(...),
+    db: Session = Depends(get_db)
+):
+    # Criar um objeto
+    novo_curso = Curso(nome = nome, carga_horaria = carga_horaria, descricao = descricao)
+    db.add(novo_curso)
+    db.commit()
 
+    return RedirectResponse(url="listar_cursos", status_code=303)
+
+# listar cursos
+@app.get("/listar_cursos")
+def exibir_cursos(
+    request: Request,
+    db: Session = Depends(get_db)
+    ):
+    cursos = db.query(Curso).all()
+    return templates.TemplateResponse(
+        request,
+        "cursos.html",
+        {"request": request, "cursos": cursos}
+    )
+
+# rota para deletar um curso
+@app.post("/cursos/{id}/deletar")
+def deletar_curso(
+    id: int,
+    db: Session = Depends(get_db)
+):
+    curso = db.query(Curso).get(id)
+    if curso:
+        db.delete(curso)
+        db.commit()
+
+        return RedirectResponse(url="/listar_cursos", status_code=303)
